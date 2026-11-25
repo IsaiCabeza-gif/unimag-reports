@@ -168,13 +168,25 @@ textarea{
 
 width:100%; 
     
-padding:15px;
+padding:18px;
 
 border:none;
 
 border-radius:10px;
 
-font-size:1rem;
+font-size:1.25rem;
+
+min-height:60px;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+    outline: 2px solid #f3c73f;
+
+    box-shadow: 0 0 15px rgba(243,199,63,0.4);
 
 }
 
