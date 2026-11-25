@@ -10,10 +10,18 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+app.set('trust proxy', 1);
+
 app.use(session({
     secret: 'unimagdalena-reportes',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+        // En producción (Render) usa HTTPS, en local usa HTTP
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'lax',
+        maxAge: 1000 * 60 * 60 * 2 // 2 horas de sesión
+    }
 }));
 
 const usuarios = {
@@ -43,7 +51,8 @@ app.get('/', (req, res) => {
 
 app.post('/login', (req, res) => {
 
-  const { correo, password } = req.body;
+  const correo = req.body.correo ? req.body.correo.trim().toLowerCase() : '';
+  const password = req.body.password ? req.body.password.trim() : '';
 
   if (
     usuarios[correo] &&
@@ -53,15 +62,23 @@ app.post('/login', (req, res) => {
 
     req.session.usuario = correo;
 
-    if (usuarios[correo].role === "admin") {
+    req.session.save((err) => {
 
-      res.redirect('/admin');
+      if (err) {
+        console.error('Error guardando sesión:', err);
+        return res.status(500).send('Error interno de sesión');
+      }
 
-    } else {
+      if (usuarios[correo].role === "admin") {
+
+        res.redirect('/admin');
+
+      } else {
 
       res.redirect(`/reportes?correo=${correo}`);
 
-    }
+      }
+    });  
 
   } else {
 
