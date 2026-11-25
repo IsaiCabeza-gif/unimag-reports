@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+    <head>
+
+        <meta charset="UTF-8">
+
+        <link rel="stylesheet" href="/css/style.css">
+
+        <title>Nuevo Reporte</title>
+
+    </head>
+
+    <body>
+
+        <a href="/" class="back-btn">
+            ← VOLVER AL INICIO
+        </a>
+
+        <div class="form-container">
+
+            <h1>¿QUÉ PROBLEMA ENCONTRASTE?</h1>
+
+            <form method="POST" action="/reportes">
+
+                <select name="tipo">
+
+                    <option>Iluminación</option>
+
+                    <option>Electricidad</option>
+
+                    <option>Hidráulica</option>
+
+                    <option>Climatización</option>
+
+                    <option>Infraestructura</option>
+
+                    <option>Mobiliario</option>
+
+                </select>
+
+                <input
+                type="text"
+                name="lugar"
+                placeholder="Lugar">
+
+                <textarea
+                    name="descripcion"
+                    placeholder="Describe el problema">
+                </textarea>
+
+                <button type="submit">
+
+                    Enviar Reporte
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </body>
+
+</html>
